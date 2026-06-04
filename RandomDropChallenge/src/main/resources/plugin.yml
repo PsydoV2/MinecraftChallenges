@@ -4,8 +4,4 @@ version: '${version}'
 main: me.psydo.randomDropChallenge.RandomDropChallenge
 api-version: '26.1.2'
 load: POSTWORLD
-
-commands:
-  challenge:
-    description: Startet oder Stoppt eine Challenge
-    usage: /challenge <randomdropchallenge> <start|stop|shuffle>
+depend: [ChallengesCore]

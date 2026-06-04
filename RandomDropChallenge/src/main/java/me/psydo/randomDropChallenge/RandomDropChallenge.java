@@ -1,11 +1,12 @@
 package me.psydo.randomDropChallenge;
 
+import me.psydo.challengesCore.ChallengesCore;
+import me.psydo.challengesCore.IChallenge;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -16,24 +17,28 @@ import org.jspecify.annotations.NonNull;
 
 import java.util.*;
 
-public final class RandomDropChallenge extends JavaPlugin implements Listener {
+public final class RandomDropChallenge extends JavaPlugin implements Listener, IChallenge {
     private HashMap<Material, Material> drops = new HashMap<>();
     private boolean isRunning = false;
+
     public enum ChallengeAction {
-        START,
-        STOP,
-        SHUFFLE
+        START, STOP, SHUFFLE
     }
+
     private final Random random = new Random();
     private int secondsPassed = 0;
 
     @Override
     public void onEnable() {
-        // Plugin startup logic
         getServer().getPluginManager().registerEvents(this, this);
         getLogger().info("RandomDropChallenge has been enabled!");
-        Objects.requireNonNull(getCommand("challenge")).setExecutor(this);
-        Objects.requireNonNull(getCommand("challenge")).setTabCompleter(this);
+
+        if (!(Bukkit.getPluginManager().getPlugin("ChallengesCore") instanceof ChallengesCore core)) {
+            getLogger().severe("ChallengesCore nicht gefunden! Plugin wird deaktiviert.");
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+        core.getChallengeRegistry().registerChallenge(this);
 
         Bukkit.getScheduler().runTaskTimer(this, () -> {
             if (!isRunning) {
@@ -54,13 +59,12 @@ public final class RandomDropChallenge extends JavaPlugin implements Listener {
             for (org.bukkit.entity.Player player : Bukkit.getOnlinePlayers()) {
                 player.sendActionBar(actionBarText);
             }
-        }, 0L, 20L); // 20 Ticks = 1 Sekunde
+        }, 0L, 20L);
     }
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
-        if (drops != null){
+        if (drops != null) {
             drops.clear();
         }
         getLogger().info("RandomDropChallenge has been disabled!");
@@ -68,68 +72,63 @@ public final class RandomDropChallenge extends JavaPlugin implements Listener {
     }
 
     @Override
-    public boolean onCommand(@NonNull CommandSender sender, @NonNull Command command, @NonNull String label, String @NonNull [] args) {
-        if (args.length < 2) {
-            sender.sendMessage(Component.text("Benutzung: /challenge <name> <start|stop|shuffle>", NamedTextColor.RED));
-            return true;
-        }
-
-        String challengeNameInput = args[0];
-        ChallengeAction action = mapChallengeAction(args[1]);
-
-        if (command.getName().equalsIgnoreCase("challenge") && Objects.equals(challengeNameInput.toLowerCase(), "randomdropchallenge")){
-            if (action == ChallengeAction.SHUFFLE){
-                drops.clear();
-                drops = generateDrops();
-                sender.sendMessage(Component.text("Die Drops wurden neu gemischt!", NamedTextColor.GREEN, TextDecoration.BOLD));
-            }
-
-            if (action == ChallengeAction.START) {
-                if (isRunning) {
-                    sender.sendMessage(Component.text("Die Challenge läuft bereits!", NamedTextColor.GOLD));
-                } else {
-                    isRunning = true;
-                    drops = generateDrops();
-
-                    for (org.bukkit.entity.Player player : Bukkit.getOnlinePlayers()) {
-                        player.showTitle(net.kyori.adventure.title.Title.title(
-                                Component.text("CHALLENGE START", NamedTextColor.GREEN, TextDecoration.BOLD),
-                                Component.text("Viel Erfolg!", NamedTextColor.GRAY)
-                        ));
-
-                        player.playSound(player.getLocation(), org.bukkit.Sound.UI_TOAST_CHALLENGE_COMPLETE, 1f, 1f);
-                    }
-                }
-            }
-
-            if (action == ChallengeAction.STOP){
-                if (isRunning){
-                    isRunning = false;
-                    drops.clear();
-                    Bukkit.broadcast(Component.text("Die Random Drop Challenge wurde GESTOPPT!", NamedTextColor.RED, TextDecoration.BOLD));
-                }
-            }
-
-            return true;
-        }
-
-        return false;
+    public String getChallengeId() {
+        return "randomdropchallenge";
     }
 
     @Override
-    public List<String> onTabComplete(@NonNull CommandSender sender, Command command, @NonNull String label, String @NonNull [] args) {
-        if (command.getName().equalsIgnoreCase("challenge")){
-            if (args.length == 1){
-                List<String> subCommands = new ArrayList<>();
-                subCommands.add("randomdropchallenge");
-                return subCommands;
-            }
+    public boolean onCommand(CommandSender sender, String[] args) {
+        if (args.length < 1) {
+            sender.sendMessage(Component.text("Benutzung: /challenge randomdropchallenge <start|stop|shuffle>", NamedTextColor.RED));
+            return true;
+        }
 
-            if (args.length == 2 && args[0].equalsIgnoreCase("randomdropchallenge")) {
-                return Arrays.asList("start", "stop", "shuffle");
+        ChallengeAction action = mapChallengeAction(args[0]);
+
+        if (action == null) {
+            sender.sendMessage(Component.text("Unbekannte Aktion: " + args[0] + " | Erlaubt: start, stop, shuffle", NamedTextColor.RED));
+            return true;
+        }
+
+        if (action == ChallengeAction.SHUFFLE) {
+            drops.clear();
+            drops = generateDrops();
+            sender.sendMessage(Component.text("Die Drops wurden neu gemischt!", NamedTextColor.GREEN, TextDecoration.BOLD));
+        }
+
+        if (action == ChallengeAction.START) {
+            if (isRunning) {
+                sender.sendMessage(Component.text("Die Challenge läuft bereits!", NamedTextColor.GOLD));
+            } else {
+                isRunning = true;
+                drops = generateDrops();
+
+                for (org.bukkit.entity.Player player : Bukkit.getOnlinePlayers()) {
+                    player.showTitle(net.kyori.adventure.title.Title.title(
+                            Component.text("CHALLENGE START", NamedTextColor.GREEN, TextDecoration.BOLD),
+                            Component.text("Viel Erfolg!", NamedTextColor.GRAY)
+                    ));
+                    player.playSound(player.getLocation(), org.bukkit.Sound.UI_TOAST_CHALLENGE_COMPLETE, 1f, 1f);
+                }
             }
         }
 
+        if (action == ChallengeAction.STOP) {
+            if (isRunning) {
+                isRunning = false;
+                drops.clear();
+                Bukkit.broadcast(Component.text("Die Random Drop Challenge wurde GESTOPPT!", NamedTextColor.RED, TextDecoration.BOLD));
+            }
+        }
+
+        return true;
+    }
+
+    @Override
+    public @NonNull List<String> onTabComplete(String[] args) {
+        if (args.length == 1) {
+            return Arrays.asList("start", "stop", "shuffle");
+        }
         return new ArrayList<>();
     }
 
@@ -140,14 +139,14 @@ public final class RandomDropChallenge extends JavaPlugin implements Listener {
         event.setDropItems(false);
 
         Material itemToDrop = drops.get(event.getBlock().getType());
+        if (itemToDrop == null) return;
 
         int maxStack = itemToDrop.getMaxStackSize();
 
-        double r = random.nextDouble(); // Zahl zwischen 0.0 und 1.0
-        // Durch r * r (Quadrieren) wandern die Werte stark Richtung 0
+        double r = random.nextDouble();
         int amount = (int) (Math.pow(r, 64) * maxStack) + 1;
 
-        if (amount <= 0){
+        if (amount <= 0) {
             amount = 1;
         }
 
@@ -177,7 +176,6 @@ public final class RandomDropChallenge extends JavaPlugin implements Listener {
         for (Material mat : allPossibleBlocks) {
             if (mat.isBlock() && !mat.isAir()) {
                 if (itemIndex >= pool.size()) itemIndex = 0;
-
                 drops.put(mat, pool.get(itemIndex));
                 itemIndex++;
             }
@@ -185,11 +183,12 @@ public final class RandomDropChallenge extends JavaPlugin implements Listener {
         return drops;
     }
 
-    public ChallengeAction mapChallengeAction(String action){
+    public ChallengeAction mapChallengeAction(String action) {
         return switch (action.toUpperCase()) {
+            case "START" -> ChallengeAction.START;
             case "STOP" -> ChallengeAction.STOP;
             case "SHUFFLE" -> ChallengeAction.SHUFFLE;
-            default -> ChallengeAction.START;
+            default -> null;
         };
     }
 }

@@ -64,5 +64,11 @@
             <version>[26.1.2.build,)</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>me.psydo</groupId>
+            <artifactId>challengescore</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 </project>
