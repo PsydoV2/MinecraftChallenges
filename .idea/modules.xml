@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/MinecraftChallenges.iml" filepath="$PROJECT_DIR$/.idea/MinecraftChallenges.iml" />
+      <module fileurl="file://$PROJECT_DIR$/RandomDropChallenge/RandomDropChallenge.iml" filepath="$PROJECT_DIR$/RandomDropChallenge/RandomDropChallenge.iml" />
+      <module fileurl="file://$PROJECT_DIR$/RandomMobChunk/RandomMobChunk.iml" filepath="$PROJECT_DIR$/RandomMobChunk/RandomMobChunk.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ChallengesCore/challengescore.iml" filepath="$PROJECT_DIR$/ChallengesCore/challengescore.iml" />
+    </modules>
+  </component>
+</project>
