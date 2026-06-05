@@ -34,10 +34,11 @@ public final class RandomDropChallenge extends JavaPlugin implements Listener, I
         getLogger().info("RandomDropChallenge has been enabled!");
 
         if (!(Bukkit.getPluginManager().getPlugin("ChallengesCore") instanceof ChallengesCore core)) {
-            getLogger().severe("ChallengesCore nicht gefunden! Plugin wird deaktiviert.");
+            getLogger().severe("ChallengesCore not found! Plugin gets deactivated!.");
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
+
         core.getChallengeRegistry().registerChallenge(this);
 
         Bukkit.getScheduler().runTaskTimer(this, () -> {
@@ -64,10 +65,11 @@ public final class RandomDropChallenge extends JavaPlugin implements Listener, I
 
     @Override
     public void onDisable() {
+        getLogger().info("RandomDropChallenge has been disabled!");
+
         if (drops != null) {
             drops.clear();
         }
-        getLogger().info("RandomDropChallenge has been disabled!");
         secondsPassed = 0;
     }
 
@@ -79,26 +81,26 @@ public final class RandomDropChallenge extends JavaPlugin implements Listener, I
     @Override
     public boolean onCommand(CommandSender sender, String[] args) {
         if (args.length < 1) {
-            sender.sendMessage(Component.text("Benutzung: /challenge randomdropchallenge <start|stop|shuffle>", NamedTextColor.RED));
+            sender.sendMessage(Component.text("Usage: /challenge randomdropchallenge <start|stop|shuffle>", NamedTextColor.RED));
             return true;
         }
 
         ChallengeAction action = mapChallengeAction(args[0]);
 
         if (action == null) {
-            sender.sendMessage(Component.text("Unbekannte Aktion: " + args[0] + " | Erlaubt: start, stop, shuffle", NamedTextColor.RED));
+            sender.sendMessage(Component.text("Unknow Action: " + args[0] + " | Allowed: start, stop, shuffle", NamedTextColor.RED));
             return true;
         }
 
         if (action == ChallengeAction.SHUFFLE) {
             drops.clear();
             drops = generateDrops();
-            sender.sendMessage(Component.text("Die Drops wurden neu gemischt!", NamedTextColor.GREEN, TextDecoration.BOLD));
+            sender.sendMessage(Component.text("The drops have been reshuffled.!", NamedTextColor.GREEN, TextDecoration.BOLD));
         }
 
         if (action == ChallengeAction.START) {
             if (isRunning) {
-                sender.sendMessage(Component.text("Die Challenge läuft bereits!", NamedTextColor.GOLD));
+                sender.sendMessage(Component.text("The challenge is already underway!", NamedTextColor.GOLD));
             } else {
                 isRunning = true;
                 drops = generateDrops();
@@ -106,7 +108,7 @@ public final class RandomDropChallenge extends JavaPlugin implements Listener, I
                 for (org.bukkit.entity.Player player : Bukkit.getOnlinePlayers()) {
                     player.showTitle(net.kyori.adventure.title.Title.title(
                             Component.text("CHALLENGE START", NamedTextColor.GREEN, TextDecoration.BOLD),
-                            Component.text("Viel Erfolg!", NamedTextColor.GRAY)
+                            Component.text("Good luck!", NamedTextColor.GRAY)
                     ));
                     player.playSound(player.getLocation(), org.bukkit.Sound.UI_TOAST_CHALLENGE_COMPLETE, 1f, 1f);
                 }
@@ -117,7 +119,7 @@ public final class RandomDropChallenge extends JavaPlugin implements Listener, I
             if (isRunning) {
                 isRunning = false;
                 drops.clear();
-                Bukkit.broadcast(Component.text("Die Random Drop Challenge wurde GESTOPPT!", NamedTextColor.RED, TextDecoration.BOLD));
+                Bukkit.broadcast(Component.text("The Random Drop Challenge has been STOPPED!", NamedTextColor.RED, TextDecoration.BOLD));
             }
         }
 

@@ -19,7 +19,8 @@ public final class ChallengesCore extends JavaPlugin {
         challengeRegistry = new ChallengeRegistry();
         Objects.requireNonNull(getCommand("challenge")).setExecutor(this);
         Objects.requireNonNull(getCommand("challenge")).setTabCompleter(this);
-        getLogger().info("Challenges Core Enabled");
+
+        getLogger().info("ChallengesCore has been enabled!");
     }
 
     @Override

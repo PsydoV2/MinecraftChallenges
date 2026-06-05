@@ -4,19 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0c9eb0cb-2c72-41bb-a318-925894df62ce" name="Changes" comment="removed .idea folders">
-      <change afterPath="$PROJECT_DIR$/ChallengesCore/src/main/java/me/psydo/challengesCore/ChallengeRegistry.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ChallengesCore/src/main/java/me/psydo/challengesCore/IChallenge.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/discord.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/discord.xml" afterDir="false" />
+    <list default="true" id="0c9eb0cb-2c72-41bb-a318-925894df62ce" name="Changes" comment="Core Plugin implementiert">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ChallengesCore/src/main/java/me/psydo/challengesCore/ChallengesCore.java" beforeDir="false" afterPath="$PROJECT_DIR$/ChallengesCore/src/main/java/me/psydo/challengesCore/ChallengesCore.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ChallengesCore/src/main/resources/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/ChallengesCore/src/main/resources/plugin.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RandomDropChallenge/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/RandomDropChallenge/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RandomDropChallenge/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/RandomDropChallenge/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RandomDropChallenge/src/main/java/me/psydo/randomDropChallenge/RandomDropChallenge.java" beforeDir="false" afterPath="$PROJECT_DIR$/RandomDropChallenge/src/main/java/me/psydo/randomDropChallenge/RandomDropChallenge.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RandomDropChallenge/src/main/resources/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/RandomDropChallenge/src/main/resources/plugin.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RandomMobChunk/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/RandomMobChunk/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RandomMobChunk/src/main/java/me/psydo/randomMobChunk/RandomMobChunk.java" beforeDir="false" afterPath="$PROJECT_DIR$/RandomMobChunk/src/main/java/me/psydo/randomMobChunk/RandomMobChunk.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RandomMobChunk/src/main/resources/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/RandomMobChunk/src/main/resources/plugin.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,22 +26,22 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "PsydoV2"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;PsydoV2&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/PsydoV2/MinecraftChallenges.git",
-    "accountId": "e73a54d8-bb2f-40c5-8eea-160a13339ed9"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/PsydoV2/MinecraftChallenges.git&quot;,
+    &quot;accountId&quot;: &quot;e73a54d8-bb2f-40c5-8eea-160a13339ed9&quot;
   }
-}]]></component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 3
-}]]></component>
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 3
+}</component>
   <component name="ProjectId" id="3EfGOhKixd05p25KFfMIPnrg5RB" />
   <component name="ProjectViewState">
     <option name="flattenPackages" value="true" />
@@ -68,7 +60,8 @@
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true"
+    "kotlin-language-version-configured": "true",
+    "settings.editor.selected.configurable": "preferences.keymap"
   }
 }]]></component>
   <component name="SharedIndexes">
@@ -94,11 +87,20 @@
       <option name="project" value="LOCAL" />
       <updated>1780562306104</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Core Plugin implementiert">
+      <option name="closed" value="true" />
+      <created>1780564498897</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1780564498897</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="removed .idea folders" />
-    <option name="LAST_COMMIT_MESSAGE" value="removed .idea folders" />
+    <MESSAGE value="Core Plugin implementiert" />
+    <option name="LAST_COMMIT_MESSAGE" value="Core Plugin implementiert" />
   </component>
 </project>
